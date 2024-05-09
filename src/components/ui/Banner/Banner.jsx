@@ -1,23 +1,21 @@
+"use client";
+
 import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import bannerImage from "@/assets/images/banner-image.png";
-import Navbar from "@/components/shared/Navbar";
 
 const Banner = () => {
   return (
-    <Box sx={{ backgroundColor: "#FFF8F5", py: "40px" }}>
+    <Box sx={{ backgroundColor: "#FFF8F5", py: 5 }}>
       <Container maxWidth="lg">
-        <Navbar />
-
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column-reverse", sm: "row" },
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 5,
-            mt: "30px",
+            gap: { xs: 5, sm: 0 },
           }}
         >
           <Box
@@ -47,11 +45,11 @@ const Banner = () => {
             </Typography>
 
             <Typography
-              mt={{ xs: 2, sm: 3 }}
-              mb={{ xs: 3, sm: 5 }}
+              mt={{ xs: 2, md: 3 }}
+              mb={{ xs: 3, md: 5 }}
               color={"#666666"}
               textAlign={{ xs: "center", sm: "start" }}
-              width={{ xs: "100%", sm: "370px" }}
+              width={{ xs: "100%", md: "370px" }}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus
               commodo ipsum duis laoreet maecenas. Feugiat{" "}
@@ -72,8 +70,8 @@ const Banner = () => {
           <Image
             src={bannerImage}
             alt="banner image"
-            height={478}
             width={484}
+            height={478}
           />
         </Box>
       </Container>
