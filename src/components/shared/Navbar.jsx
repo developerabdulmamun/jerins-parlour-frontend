@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { MenuIcon, User } from "lucide-react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const pages = [
   {
@@ -39,6 +41,7 @@ const Navbar = () => {
   const user = null;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [activeLink, setActiveLink] = React.useState("/");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -55,6 +58,10 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const handleNavClick = (route) => {
+    setActiveLink(route);
+    handleCloseNavMenu();
+  };
   return (
     <AppBar
       position="sticky"
@@ -131,17 +138,17 @@ const Navbar = () => {
             {pages.map((page) => (
               <Button
                 key={page.pathName}
-                href={page.route}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleNavClick(page.route)}
                 sx={{
                   my: 2,
                   mr: 2,
                   color: "#474747",
+                  fontWeight: page.route === activeLink ? "600" : "400",
                   display: "block",
                   textTransform: "capitalize",
                 }}
               >
-                {page.pathName}
+                <Link href={page.route}>{page.pathName}</Link>
               </Button>
             ))}
           </Box>
