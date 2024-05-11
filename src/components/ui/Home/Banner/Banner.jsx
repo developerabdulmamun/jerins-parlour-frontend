@@ -4,6 +4,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import bannerImage from "@/assets/images/banner-image.png";
+import CustomButton from "@/components/shared/CustomButton";
 
 const Banner = () => {
   return (
@@ -55,16 +56,7 @@ const Banner = () => {
               commodo ipsum duis laoreet maecenas. Feugiat{" "}
             </Typography>
 
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: "#F63E7B",
-                fontWeight: "medium",
-                textTransform: "capitalize",
-              }}
-            >
-              Get an Appointment
-            </Button>
+            <CustomButton>Get an Appointment</CustomButton>
           </Box>
 
           <Image

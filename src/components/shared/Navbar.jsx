@@ -14,8 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { MenuIcon, User } from "lucide-react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import CustomButton from "./CustomButton";
 
 const pages = [
   {
@@ -163,17 +163,7 @@ const Navbar = () => {
                   <User />
                 </IconButton>
               ) : (
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#F63E7B",
-                    fontWeight: "medium",
-                    textTransform: "capitalize",
-                    ml: 2,
-                  }}
-                >
-                  Login
-                </Button>
+                <CustomButton sx={{ ml: 2 }}>Login</CustomButton>
               )}
             </Tooltip>
             <Menu
