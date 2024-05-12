@@ -13,7 +13,6 @@ const ServiceCard = ({ service }) => {
       display={"flex"}
       flexDirection={"column"}
       alignItems={"center"}
-      justifyContent={"center"}
       textAlign={"center"}
       p={3}
       borderRadius={"10px"}

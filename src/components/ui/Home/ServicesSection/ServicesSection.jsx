@@ -1,22 +1,13 @@
 "use client";
 
-import useAxiosPublic from "@/utils/useAxiosPublic";
 import { Container, Grid, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import ServiceCard from "./ServiceCard";
 import CustomButton from "@/components/shared/CustomButton";
 import Link from "next/link";
+import useGetAllServices from "@/utils/useGetAllServices";
 
 const ServicesSection = () => {
-  const axiosPublic = useAxiosPublic();
-
-  const { data: services } = useQuery({
-    queryKey: ["services"],
-    queryFn: async () => {
-      const res = await axiosPublic.get("/services");
-      return res.data;
-    },
-  });
+  const services = useGetAllServices();
 
   return (
     <>
