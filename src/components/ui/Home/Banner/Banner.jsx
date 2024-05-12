@@ -52,8 +52,9 @@ const Banner = () => {
               textAlign={{ xs: "center", sm: "start" }}
               width={{ xs: "100%", md: "370px" }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus
-              commodo ipsum duis laoreet maecenas. Feugiat{" "}
+              Welcome to Jerins Parlour. Discover indulgent treatments from
+              facials to hair styling. Step into our oasis and emerge radiant.
+              Your beauty journey starts here.
             </Typography>
 
             <CustomButton>Get an Appointment</CustomButton>
