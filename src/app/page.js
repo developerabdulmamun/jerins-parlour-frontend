@@ -1,3 +1,4 @@
+import AboutSection from "@/components/ui/Home/AboutSection/AboutSection";
 import Banner from "@/components/ui/Home/Banner/Banner";
 import ServicesSection from "@/components/ui/Home/ServicesSection/ServicesSection";
 
@@ -11,6 +12,7 @@ export default function Home() {
     <div>
       <Banner />
       <ServicesSection />
+      <AboutSection />
     </div>
   );
 }
