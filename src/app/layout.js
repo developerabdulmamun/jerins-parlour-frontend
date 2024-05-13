@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <Provider>
           <Navbar />
-          {children}
+          <div className="min-h-screen">{children}</div>
           <Footer />
         </Provider>
       </body>

@@ -1,9 +1,15 @@
+import SignUp from "@/components/ui/Accounts/SignUp";
 import React from "react";
+
+export const metadata = {
+  title: "Signup | Jerin's Parlour",
+  description: "Beauty saloon for every women",
+};
 
 const SignUpPage = () => {
   return (
     <div>
-      <h1>This is sign up page</h1>
+      <SignUp />
     </div>
   );
 };

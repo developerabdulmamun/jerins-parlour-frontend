@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import React from "react";
 
-const Login = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -32,7 +32,7 @@ const Login = () => {
     <>
       <Container maxWidth="lg">
         <Box
-          width={{ xs: "100%", sm: "70%", md: "40%" }}
+          width={{ xs: "100%", sm: "80%", md: "50%" }}
           mx={"auto"}
           pt={"50px"}
         >
@@ -44,11 +44,29 @@ const Login = () => {
               textAlign={"center"}
               mb={3}
             >
-              Login
+              Create an account
             </Typography>
 
             <form>
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="standard"
+                    label="First Name"
+                    type="text"
+                    name="first"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="standard"
+                    label="Last Name"
+                    type="text"
+                    name="last"
+                    fullWidth
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     variant="standard"
@@ -81,16 +99,39 @@ const Login = () => {
                     />
                   </FormControl>
                 </Grid>
+                <Grid item xs={12}>
+                  <FormControl variant="standard" fullWidth>
+                    <InputLabel htmlFor="standard-adornment-password">
+                      Confirm Password
+                    </InputLabel>
+                    <Input
+                      id="standard-adornment-password"
+                      name="confirm"
+                      type={showPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
               </Grid>
               <CustomButton type="submit" sx={{ width: "100%", mt: 4, mb: 2 }}>
-                Login
+                Create an account
               </CustomButton>
             </form>
 
             <Typography fontWeight={500} textAlign={"center"}>
-              New to our website?{" "}
-              <Link href={"/signup"} className="text-[#F63E7B] underline">
-                Create an account
+              Already have an account?{" "}
+              <Link href={"/login"} className="text-[#F63E7B] underline">
+                Login
               </Link>
             </Typography>
           </Box>
@@ -104,4 +145,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
