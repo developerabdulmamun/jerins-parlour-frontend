@@ -11,11 +11,17 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { MenuIcon, User } from "lucide-react";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./CustomButton";
+import useAuth from "@/utils/useAuth";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { ListItemIcon } from "@mui/material";
+import { Logout } from "@mui/icons-material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import MailIcon from "@mui/icons-material/Mail";
 
 const pages = [
   {
@@ -35,13 +41,14 @@ const pages = [
     route: "/contact",
   },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
-  const user = null;
+  const { user, logOut } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activeLink, setActiveLink] = React.useState("/");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -62,6 +69,20 @@ const Navbar = () => {
     setActiveLink(route);
     handleCloseNavMenu();
   };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogOut = () => {
+    handleClose();
+
+    logOut().then(() => {});
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -134,6 +155,7 @@ const Navbar = () => {
           >
             <Image src={logo} alt="logo" width={128} />
           </Typography>
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -154,13 +176,18 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Account settings">
               {user ? (
                 <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0.5, bgcolor: "#F63E7B", color: "white", ml: 2 }}
+                  onClick={handleClick}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
                 >
-                  <User />
+                  <AccountCircleIcon
+                    fontSize="large"
+                    sx={{ color: "#F63E7B" }}
+                  />
                 </IconButton>
               ) : (
                 <Link href={"/login"}>
@@ -169,26 +196,58 @@ const Navbar = () => {
               )}
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&::before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <MailIcon fontSize="small" sx={{ color: "#F63E7B" }} />
+                </ListItemIcon>
+                {user?.email}
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <DashboardIcon fontSize="small" sx={{ color: "#F63E7B" }} />
+                </ListItemIcon>
+                Dashboard
+              </MenuItem>
+              <MenuItem onClick={handleLogOut}>
+                <ListItemIcon>
+                  <Logout fontSize="small" sx={{ color: "#F63E7B" }} />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
