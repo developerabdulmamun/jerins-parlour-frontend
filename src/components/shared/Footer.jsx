@@ -116,12 +116,7 @@ const Footer = () => {
             </ul>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-          >
+          <Grid item xs={12} sm={6} md={3}>
             <Typography
               variant="body1"
               fontWeight={600}
@@ -135,11 +130,7 @@ const Footer = () => {
               delivers personalized services, from rejuvenating skincare to
               stunning makeovers. Step in and experience perfection.
             </Typography>
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              gap={2}
-            >
+            <Box display={"flex"} alignItems={"center"} gap={2}>
               <Facebook />
               <Instagram />
               <LinkedIn />

@@ -163,7 +163,9 @@ const Navbar = () => {
                   <User />
                 </IconButton>
               ) : (
-                <CustomButton sx={{ ml: 2 }}>Login</CustomButton>
+                <Link href={"/login"}>
+                  <CustomButton sx={{ ml: 2 }}>Login</CustomButton>
+                </Link>
               )}
             </Tooltip>
             <Menu
