@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import Provider from "./_provider";
 import Footer from "@/components/shared/Footer";
+import AuthProvider from "@/providers/AuthProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,11 +19,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Provider>
-          <Navbar />
-          <div className="min-h-screen">{children}</div>
-          <Footer />
-        </Provider>
+        <AuthProvider>
+          <Provider>
+            <Navbar />
+            <div className="min-h-screen">{children}</div>
+            <Footer />
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   );

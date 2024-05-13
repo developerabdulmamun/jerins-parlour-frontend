@@ -1,4 +1,4 @@
-import Login from "@/components/ui/Accounts/Login";
+import Login from "@/components/Accounts/Login";
 import React from "react";
 
 export const metadata = {

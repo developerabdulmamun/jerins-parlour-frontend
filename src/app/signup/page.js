@@ -1,4 +1,4 @@
-import SignUp from "@/components/ui/Accounts/SignUp";
+import SignUp from "@/components/Accounts/SignUp";
 import React from "react";
 
 export const metadata = {
