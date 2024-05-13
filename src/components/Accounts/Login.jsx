@@ -2,6 +2,7 @@
 
 import CustomButton from "@/components/shared/CustomButton";
 import GoogleLogin from "@/components/shared/GoogleLogin";
+import useAuth from "@/utils/useAuth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -18,14 +19,36 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const email = form.email.value;
+    const password = form.password.value;
+
+    console.log(email, password);
+
+    login(email, password)
+      .then((result) => {
+        result.user;
+        toast.success("Login Successful");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -47,7 +70,7 @@ const Login = () => {
               Login
             </Typography>
 
-            <form>
+            <form onSubmit={handleLogin}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField

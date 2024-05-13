@@ -2,6 +2,7 @@
 
 import CustomButton from "@/components/shared/CustomButton";
 import GoogleLogin from "@/components/shared/GoogleLogin";
+import useAuth from "@/utils/useAuth";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -18,14 +19,39 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
+  const { createUser } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleCreateUser = (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const firstName = form.first.value;
+    const lastName = form.last.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.confirm.value;
+
+    console.log(firstName, lastName, email, password, confirmPassword);
+
+    createUser(email, password)
+      .then((result) => {
+        result.user;
+        toast.success("Account create successful");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -47,7 +73,7 @@ const SignUp = () => {
               Create an account
             </Typography>
 
-            <form>
+            <form onSubmit={handleCreateUser}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -126,6 +152,8 @@ const SignUp = () => {
               <CustomButton type="submit" sx={{ width: "100%", mt: 4, mb: 2 }}>
                 Create an account
               </CustomButton>
+
+              <Toaster />
             </form>
 
             <Typography fontWeight={500} textAlign={"center"}>
