@@ -44,6 +44,7 @@ const pages = [
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const isAdmin = false;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [activeLink, setActiveLink] = React.useState("/");
@@ -137,7 +138,7 @@ const Navbar = () => {
                   href={page.route}
                   onClick={handleCloseNavMenu}
                 >
-                  <Typography textAlign="center">{page.pathName}</Typography>
+                  <Link href={page.route}>{page.pathName}</Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -236,7 +237,7 @@ const Navbar = () => {
                 </ListItemIcon>
                 {user?.email}
               </MenuItem>
-              <Link href={"/dashboard"}>
+              <Link href={isAdmin ? "/orders" : "/book"}>
                 <MenuItem onClick={handleClose}>
                   <ListItemIcon>
                     <DashboardIcon fontSize="small" sx={{ color: "#F63E7B" }} />

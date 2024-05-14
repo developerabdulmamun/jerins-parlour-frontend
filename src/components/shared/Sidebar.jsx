@@ -38,7 +38,7 @@ const userSidebarMenu = [
   {
     icon: <ClipboardList />,
     pathName: "Booking List",
-    route: "/list",
+    route: "/bookings",
   },
   {
     icon: <MessagesSquare />,
@@ -74,10 +74,17 @@ const Sidebar = () => {
   const { user } = useAuth();
   const isAdmin = false;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const sidebarMenu = isAdmin ? adminSidebarMenu : userSidebarMenu;
+  const [selectedMenu, setSelectedMenu] = useState(sidebarMenu[0]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleMenuClick = (menu) => {
+    setSelectedMenu(menu);
+  };
+
   return (
     <>
       <AppBar
@@ -110,7 +117,7 @@ const Sidebar = () => {
             display={"flex"}
             justifyContent={"space-between"}
           >
-            <Typography>Book</Typography>
+            <Typography>{selectedMenu.pathName}</Typography>
             <Typography>{user?.displayName}</Typography>
           </Box>
         </Toolbar>
@@ -132,23 +139,33 @@ const Sidebar = () => {
         <Toolbar />
         <Box sx={{ overflow: "auto" }} mt={5}>
           <List>
-            {isAdmin
-              ? adminSidebarMenu.map((menu, index) => (
-                  <ListItem key={index} disablePadding>
-                    <ListItemButton href={menu.route}>
-                      <ListItemIcon>{menu.icon}</ListItemIcon>
-                      <ListItemText primary={menu.pathName} />
-                    </ListItemButton>
-                  </ListItem>
-                ))
-              : userSidebarMenu.map((menu, index) => (
-                  <ListItem key={index} disablePadding>
-                    <ListItemButton href={menu.route}>
-                      <ListItemIcon>{menu.icon}</ListItemIcon>
-                      <ListItemText primary={menu.pathName} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
+            {sidebarMenu.map((menu, index) => (
+              <ListItem key={index} disablePadding>
+                <Link href={menu.route} className="w-full">
+                  <ListItemButton
+                    onClick={() => handleMenuClick(menu)}
+                    sx={{
+                      color:
+                        selectedMenu.pathName === menu.pathName
+                          ? "#F63E7B"
+                          : "#878787",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        color:
+                          selectedMenu.pathName === menu.pathName
+                            ? "#F63E7B"
+                            : "#878787",
+                      }}
+                    >
+                      {menu.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={menu.pathName} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            ))}
           </List>
         </Box>
       </Drawer>
@@ -166,12 +183,31 @@ const Sidebar = () => {
       >
         <Toolbar />
         <List sx={{ mt: 5 }}>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+          {sidebarMenu.map((menu, index) => (
+            <ListItem key={index} disablePadding>
+              <Link href={menu.route} className="w-full">
+                <ListItemButton
+                  onClick={() => handleMenuClick(menu)}
+                  sx={{
+                    color:
+                      selectedMenu.pathName === menu.pathName
+                        ? "#F63E7B"
+                        : "#878787",
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      color:
+                        selectedMenu.pathName === menu.pathName
+                          ? "#F63E7B"
+                          : "#878787",
+                    }}
+                  >
+                    {menu.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={menu.pathName} />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
