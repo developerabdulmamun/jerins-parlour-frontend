@@ -116,9 +116,12 @@ const Sidebar = () => {
             color={"black"}
             display={"flex"}
             justifyContent={"space-between"}
+            alignItems={"center"}
           >
-            <Typography>{selectedMenu.pathName}</Typography>
-            <Typography>{user?.displayName}</Typography>
+            <Typography fontWeight={500} fontSize={22}>
+              {selectedMenu.pathName}
+            </Typography>
+            <Typography fontWeight={500}>{user?.displayName}</Typography>
           </Box>
         </Toolbar>
       </AppBar>

@@ -1,9 +1,15 @@
+import Book from "@/components/Dashboard/Book/Book";
 import React from "react";
+
+export const metadata = {
+  title: "Book | Jerin's Parlour",
+  description: "Beauty saloon for every women",
+};
 
 const BookPage = () => {
   return (
     <div>
-      <h1>This is book page</h1>
+      <Book />
     </div>
   );
 };
