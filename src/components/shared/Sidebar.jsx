@@ -18,11 +18,61 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Drawer from "@mui/material/Drawer";
 import useAuth from "@/utils/useAuth";
+import {
+  ClipboardList,
+  LayoutGrid,
+  MessagesSquare,
+  Plus,
+  ShoppingCart,
+  UserPlus,
+} from "lucide-react";
 
 const drawerWidth = 240;
 
+const userSidebarMenu = [
+  {
+    icon: <ShoppingCart />,
+    pathName: "Book",
+    route: "/book",
+  },
+  {
+    icon: <ClipboardList />,
+    pathName: "Booking List",
+    route: "/list",
+  },
+  {
+    icon: <MessagesSquare />,
+    pathName: "Review",
+    route: "/review",
+  },
+];
+
+const adminSidebarMenu = [
+  {
+    icon: <ClipboardList />,
+    pathName: "Order List",
+    route: "/orders",
+  },
+  {
+    icon: <LayoutGrid />,
+    pathName: "Manage Services",
+    route: "/manageServices",
+  },
+  {
+    icon: <Plus />,
+    pathName: "Add Service",
+    route: "/addService",
+  },
+  {
+    icon: <UserPlus />,
+    pathName: "Make Admin",
+    route: "/makeAdmin",
+  },
+];
+
 const Sidebar = () => {
   const { user } = useAuth();
+  const isAdmin = false;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -82,16 +132,23 @@ const Sidebar = () => {
         <Toolbar />
         <Box sx={{ overflow: "auto" }} mt={5}>
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {isAdmin
+              ? adminSidebarMenu.map((menu, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton href={menu.route}>
+                      <ListItemIcon>{menu.icon}</ListItemIcon>
+                      <ListItemText primary={menu.pathName} />
+                    </ListItemButton>
+                  </ListItem>
+                ))
+              : userSidebarMenu.map((menu, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton href={menu.route}>
+                      <ListItemIcon>{menu.icon}</ListItemIcon>
+                      <ListItemText primary={menu.pathName} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
           </List>
         </Box>
       </Drawer>
