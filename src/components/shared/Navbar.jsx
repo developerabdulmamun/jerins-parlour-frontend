@@ -236,12 +236,14 @@ const Navbar = () => {
                 </ListItemIcon>
                 {user?.email}
               </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <DashboardIcon fontSize="small" sx={{ color: "#F63E7B" }} />
-                </ListItemIcon>
-                Dashboard
-              </MenuItem>
+              <Link href={"/dashboard"}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <DashboardIcon fontSize="small" sx={{ color: "#F63E7B" }} />
+                  </ListItemIcon>
+                  Dashboard
+                </MenuItem>
+              </Link>
               <MenuItem onClick={handleLogOut}>
                 <ListItemIcon>
                   <Logout fontSize="small" sx={{ color: "#F63E7B" }} />
