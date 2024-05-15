@@ -169,7 +169,7 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Account settings">
+            <Tooltip>
               {user ? (
                 <IconButton
                   onClick={handleClick}

@@ -23,7 +23,7 @@ const Book = () => {
   };
 
   return (
-    <Box width={{ xs: "100%", sm: "70%", md: "35%" }}>
+    <Box width={{ xs: "100%", sm: "80%", md: "35%" }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -71,7 +71,6 @@ const Book = () => {
                 PaperProps: {
                   style: {
                     maxHeight: 300,
-                    width: 250,
                   },
                 },
               }}
