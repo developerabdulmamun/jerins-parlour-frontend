@@ -19,10 +19,10 @@ import Rating from "react-rating";
 const TestimonialSection = () => {
   const axiosPublic = useAxiosPublic();
 
-  const { data: testimonials } = useQuery({
-    queryKey: "testimonials",
+  const { data: reviews } = useQuery({
+    queryKey: "reviews",
     queryFn: async () => {
-      const res = await axiosPublic.get("/testimonials");
+      const res = await axiosPublic.get("/reviews");
       return res.data;
     },
   });
@@ -66,13 +66,13 @@ const TestimonialSection = () => {
           modules={[Autoplay, Pagination]}
           className="mySwiper"
         >
-          {testimonials?.map((testimonial) => (
-            <SwiperSlide key={testimonial._id} className="py-14">
+          {reviews?.map((review) => (
+            <SwiperSlide key={review._id} className="py-14">
               <Box>
                 <Box display={"flex"} alignItems={"center"} gap={"18px"}>
                   <Box borderRadius={"50%"}>
                     <Image
-                      src={testimonial.image}
+                      src={review.image}
                       alt="image"
                       width={64}
                       height={64}
@@ -80,20 +80,20 @@ const TestimonialSection = () => {
                   </Box>
                   <Box>
                     <Typography fontSize={"20px"} fontWeight={600}>
-                      {testimonial.name}
+                      {review.name}
                     </Typography>
                     <Typography fontWeight={500} lineHeight={1}>
-                      {testimonial.service}
+                      {review.service}
                     </Typography>
                   </Box>
                 </Box>
 
                 <Typography my={2} color={"#707070"}>
-                  {testimonial.comment}
+                  {review.comment}
                 </Typography>
 
                 <Rating
-                  initialRating={testimonial.rating}
+                  initialRating={review.rating}
                   emptySymbol={<StarHalfIcon className="text-[#FFAC0C]" />}
                   fullSymbol={<StarIcon className="text-[#FFAC0C]" />}
                   readonly

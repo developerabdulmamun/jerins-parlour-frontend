@@ -2,18 +2,21 @@
 
 import CustomButton from "@/components/shared/CustomButton";
 import useAuth from "@/utils/useAuth";
+import useAxiosPublic from "@/utils/useAxiosPublic";
 import { Box, Grid, Rating, TextField } from "@mui/material";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const Review = () => {
   const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
   const [rating, setRating] = useState(0);
 
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
   };
 
-  const handleReview = (event) => {
+  const handleReview = async (event) => {
     event.preventDefault();
 
     const form = event.target;
@@ -22,8 +25,19 @@ const Review = () => {
     const service = form.service.value;
     const message = form.message.value;
     const rating = form.rating.value;
+    const photo = user?.reloadUserInfo?.photoUrl;
 
-    console.log(name, service, message, rating);
+    const userInfo = { photo, name, service, comment: message, rating };
+
+    const res = await axiosPublic.post("/reviews", userInfo);
+    if (res.data.insertedId) {
+      Swal.fire({
+        icon: "success",
+        title: "Thank you for your review",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
