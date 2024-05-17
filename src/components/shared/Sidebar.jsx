@@ -54,14 +54,14 @@ const adminSidebarMenu = [
     route: "/orders",
   },
   {
-    icon: <LayoutGrid />,
-    pathName: "Manage Services",
-    route: "/manageServices",
-  },
-  {
     icon: <Plus />,
     pathName: "Add Service",
     route: "/addService",
+  },
+  {
+    icon: <LayoutGrid />,
+    pathName: "Manage Services",
+    route: "/manageServices",
   },
   {
     icon: <UserPlus />,
@@ -72,7 +72,7 @@ const adminSidebarMenu = [
 
 const Sidebar = () => {
   const { user } = useAuth();
-  const isAdmin = false;
+  const isAdmin = true;
   const [mobileOpen, setMobileOpen] = useState(false);
   const sidebarMenu = isAdmin ? adminSidebarMenu : userSidebarMenu;
   const [selectedMenu, setSelectedMenu] = useState(sidebarMenu[0]);
