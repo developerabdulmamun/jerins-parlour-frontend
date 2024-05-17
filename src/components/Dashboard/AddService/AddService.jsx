@@ -1,12 +1,57 @@
+"use client";
+
 import { Box, Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { CloudUpload } from "@mui/icons-material";
 import CustomButton from "@/components/shared/CustomButton";
+import useAxiosPublic from "@/utils/useAxiosPublic";
+
+const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddService = () => {
+  const axiosPublic = useAxiosPublic();
+  const [fileName, setFileName] = useState("");
+
+  const handleAddService = async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData();
+
+    const title = form.title.value;
+    const price = form.price.value;
+    const description = form.description.value;
+
+    const imageFile = form.image.files[0];
+    formData.append("image", imageFile);
+
+    const res = await axiosPublic.post(image_hosting_api, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (res.data.success) {
+      console.log(res.data.data.display_url);
+    }
+
+    console.log(title, price, description);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    if (file) {
+      setFileName(file.name);
+    } else {
+      setFileName("");
+    }
+  };
+
   return (
     <Box bgcolor={"white"} borderRadius={"20px"} p={{ xs: 3, sm: 6 }}>
-      <Box component={"form"}>
+      <Box component={"form"} onSubmit={handleAddService}>
         <Box
           display={"flex"}
           flexDirection={{ xs: "column", md: "row" }}
@@ -23,7 +68,7 @@ const AddService = () => {
                 Service Title
               </Typography>
               <TextField
-                name="service"
+                name="title"
                 placeholder="Enter the service title"
                 fullWidth
               />
@@ -76,8 +121,21 @@ const AddService = () => {
               }}
             >
               Upload Image
-              <input type="file" hidden />
+              <input
+                type="file"
+                name="image"
+                hidden
+                onChange={handleFileChange}
+              />
             </Button>
+            {fileName && (
+              <Typography
+                variant="body2"
+                sx={{ display: "inline-block", ml: 2 }}
+              >
+                {fileName}
+              </Typography>
+            )}
           </Box>
         </Box>
 
