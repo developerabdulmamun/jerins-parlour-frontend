@@ -7,7 +7,7 @@ import Link from "next/link";
 import useGetAllServices from "@/utils/useGetAllServices";
 
 const ServicesSection = () => {
-  const services = useGetAllServices();
+  const { services } = useGetAllServices();
 
   return (
     <>
