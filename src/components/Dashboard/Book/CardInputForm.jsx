@@ -1,6 +1,12 @@
 import CustomButton from "@/components/shared/CustomButton";
 import { Box, Typography } from "@mui/material";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import React, { useState } from "react";
 
 const cardElementOptions = {
@@ -34,15 +40,17 @@ const CardInputForm = () => {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
+    const cardNumberElement = elements.getElement(CardNumberElement);
+    const cardExpiryElement = elements.getElement(CardExpiryElement);
+    const cardCvcElement = elements.getElement(CardCvcElement);
 
-    if (cardElement === null) {
+    if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
       return;
     }
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
-      card: cardElement,
+      card: cardNumberElement,
     });
 
     if (error) {
@@ -54,7 +62,18 @@ const CardInputForm = () => {
 
   return (
     <Box component={"form"} onSubmit={handleSubmit}>
-      <CardElement options={cardElementOptions} />
+      <Box sx={{ borderRadius: "4px", p: 2, mb: "10px", bgcolor: "white" }}>
+        <CardNumberElement options={cardElementOptions} />
+      </Box>
+
+      <Box sx={{ display: "flex", gap: "10px", mb: "10px" }}>
+        <Box sx={{ flex: 1, borderRadius: "4px", p: 2, bgcolor: "white" }}>
+          <CardExpiryElement options={cardElementOptions} />
+        </Box>
+        <Box sx={{ flex: 1, borderRadius: "4px", p: 2, bgcolor: "white" }}>
+          <CardCvcElement options={cardElementOptions} />
+        </Box>
+      </Box>
 
       <Box
         display={"flex"}
@@ -72,9 +91,11 @@ const CardInputForm = () => {
         </CustomButton>
       </Box>
 
-      <Typography variant="body2" color={"error"}>
-        {error}
-      </Typography>
+      {error && (
+        <Typography variant="body2" color={"error"} mt={2}>
+          {error}
+        </Typography>
+      )}
     </Box>
   );
 };
