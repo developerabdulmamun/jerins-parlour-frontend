@@ -70,7 +70,7 @@ const adminSidebarMenu = [
 
 const Sidebar = () => {
   const { user } = useAuth();
-  const isAdmin = true;
+  const isAdmin = false;
   const [mobileOpen, setMobileOpen] = useState(false);
   const sidebarMenu = isAdmin ? adminSidebarMenu : userSidebarMenu;
   const [selectedMenu, setSelectedMenu] = useState(sidebarMenu[0]);

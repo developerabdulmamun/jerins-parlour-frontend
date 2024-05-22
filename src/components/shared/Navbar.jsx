@@ -44,7 +44,7 @@ const pages = [
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  const isAdmin = true;
+  const isAdmin = false;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [activeLink, setActiveLink] = React.useState("/");
   const [anchorEl, setAnchorEl] = React.useState(null);
