@@ -17,6 +17,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import StripeSetup from "./StripeSetup";
+import CardInputForm from "./CardInputForm";
 
 const Book = () => {
   const { user } = useAuth();
@@ -115,35 +117,11 @@ const Book = () => {
         </Grid>
 
         {paymentMethod === "creditCard" && (
-          <>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                placeholder="Card Number"
-                fullWidth
-                sx={commonTextFieldStyles}
-                InputProps={{ notched: false }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                placeholder="MM / YY"
-                fullWidth
-                sx={commonTextFieldStyles}
-                InputProps={{ notched: false }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                variant="outlined"
-                placeholder="CVC"
-                fullWidth
-                sx={commonTextFieldStyles}
-                InputProps={{ notched: false }}
-              />
-            </Grid>
-          </>
+          <Grid item xs={12}>
+            <StripeSetup>
+              <CardInputForm />
+            </StripeSetup>
+          </Grid>
         )}
 
         {paymentMethod === "bkash" && (
@@ -151,23 +129,6 @@ const Book = () => {
             <Typography variant="body1">Bkash payment option</Typography>
           </Grid>
         )}
-
-        <Grid item xs={12}>
-          <Box
-            display={"flex"}
-            flexDirection={{ xs: "column", sm: "row" }}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            gap={2}
-            mt={2}
-          >
-            <Typography variant="body1" color="textPrimary">
-              Your service charge will be{" "}
-              <span className="font-bold">$1000</span>
-            </Typography>
-            <CustomButton sx={{ width: "170px" }}>Pay</CustomButton>
-          </Box>
-        </Grid>
       </Grid>
     </Box>
   );
