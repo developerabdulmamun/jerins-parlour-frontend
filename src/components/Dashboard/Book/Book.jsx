@@ -16,15 +16,31 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StripeSetup from "./StripeSetup";
 import CardInputForm from "./CardInputForm";
+import useAxiosPublic from "@/utils/useAxiosPublic";
 
 const Book = () => {
   const { user } = useAuth();
   const { services } = useGetAllServices();
+  const axiosPublic = useAxiosPublic();
+
   const [selectedService, setSelectedService] = useState("");
+  const [selectedServicePrice, setSelectedServicePrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("creditCard");
+
+  useEffect(() => {
+    const service = services?.find(
+      (service) => service.heading === selectedService
+    );
+
+    if (service) {
+      setSelectedServicePrice(service.price);
+    } else {
+      setSelectedServicePrice(0);
+    }
+  }, [selectedService, services]);
 
   const handleChange = (event) => {
     setSelectedService(event.target.value);
@@ -32,6 +48,16 @@ const Book = () => {
 
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
+  };
+
+  const handlePayment = async () => {
+    const res = await axiosPublic.post("/create-payment-intent", {
+      amount: selectedServicePrice,
+    });
+
+    const { clientSecret } = res.data;
+
+    return clientSecret;
   };
 
   const commonTextFieldStyles = {
@@ -119,7 +145,10 @@ const Book = () => {
         {paymentMethod === "creditCard" && (
           <Grid item xs={12}>
             <StripeSetup>
-              <CardInputForm />
+              <CardInputForm
+                selectedServicePrice={selectedServicePrice}
+                handlePayment={handlePayment}
+              />
             </StripeSetup>
           </Grid>
         )}

@@ -27,11 +27,11 @@ const cardElementOptions = {
   },
 };
 
-const CardInputForm = () => {
+const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const [error, serError] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,9 +54,22 @@ const CardInputForm = () => {
     });
 
     if (error) {
-      serError(error.message);
+      setError(error.message);
     } else {
       console.log("PaymentMethod created: ", paymentMethod);
+
+      const clientSecret = await handlePayment();
+
+      const { error: stripeError, paymentIntent } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: paymentMethod.id,
+        });
+
+      if (stripeError) {
+        setError(stripeError.message);
+      } else {
+        console.log("PaymentIntent: ", paymentIntent);
+      }
     }
   };
 
@@ -84,7 +97,7 @@ const CardInputForm = () => {
         mt={2}
       >
         <Typography variant="body1" color="textPrimary">
-          Your service charge will be <span className="font-bold">$1000</span>
+          Your service charge will be <span className="font-bold">${selectedServicePrice}</span>
         </Typography>
         <CustomButton type="submit" disabled={!stripe} sx={{ width: "170px" }}>
           Pay
