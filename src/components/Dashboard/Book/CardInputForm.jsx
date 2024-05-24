@@ -1,4 +1,5 @@
 import CustomButton from "@/components/shared/CustomButton";
+import useAuth from "@/utils/useAuth";
 import { Box, Typography } from "@mui/material";
 import {
   CardCvcElement,
@@ -30,8 +31,10 @@ const cardElementOptions = {
 const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { user } = useAuth();
 
   const [error, setError] = useState("");
+  const [transactionId, setTransactionId] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,13 +65,22 @@ const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
 
       const { error: stripeError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
-          payment_method: paymentMethod.id,
+          payment_method: {
+            card: cardNumberElement,
+            billing_details: {
+              email: user?.email || "anonymous",
+              name: user?.displayName || "anonymous",
+            },
+          },
         });
 
       if (stripeError) {
         setError(stripeError.message);
       } else {
         console.log("PaymentIntent: ", paymentIntent);
+        if (paymentIntent.status === "succeeded") {
+          setTransactionId(paymentIntent.id);
+        }
       }
     }
   };
@@ -97,7 +109,8 @@ const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
         mt={2}
       >
         <Typography variant="body1" color="textPrimary">
-          Your service charge will be <span className="font-bold">${selectedServicePrice}</span>
+          Your service charge will be{" "}
+          <span className="font-bold">${selectedServicePrice}</span>
         </Typography>
         <CustomButton type="submit" disabled={!stripe} sx={{ width: "170px" }}>
           Pay
@@ -107,6 +120,13 @@ const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
       {error && (
         <Typography variant="body2" color={"error"} mt={2}>
           {error}
+        </Typography>
+      )}
+
+      {transactionId && (
+        <Typography variant="body2" mt={2}>
+          Your transaction id:{" "}
+          <span className="text-green-600 font-semibold">{transactionId}</span>
         </Typography>
       )}
     </Box>
