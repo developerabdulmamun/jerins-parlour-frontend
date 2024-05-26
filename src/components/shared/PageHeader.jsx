@@ -19,8 +19,17 @@ const PageHeader = ({ title }) => {
           textAlign: "center",
         }}
       >
-        <Typography variant="h3">{title}</Typography>
-        <Breadcrumbs sx={{ color: "white", display: "flex", justifyContent: "center", mt: 2 }}>
+        <Typography variant="h3" textTransform={"uppercase"}>
+          {title}
+        </Typography>
+        <Breadcrumbs
+          sx={{
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            mt: 2,
+          }}
+        >
           <Link underline="hover" href="/" color={"white"}>
             Home
           </Link>
