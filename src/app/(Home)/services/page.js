@@ -1,9 +1,15 @@
+import Services from "@/components/Services/Services";
 import React from "react";
+
+export const metadata = {
+  title: "Services | Jerin's Parlour",
+  description: "Beauty saloon for every women",
+};
 
 const ServicesPage = () => {
   return (
     <div>
-      <h1>This is services page</h1>
+      <Services />
     </div>
   );
 };

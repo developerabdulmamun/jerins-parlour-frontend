@@ -7,7 +7,7 @@ import aboutImage from "@/assets/images/about.png";
 import useGetAllServices from "@/utils/useGetAllServices";
 
 const AboutSection = () => {
-  const services = useGetAllServices();
+  const {services} = useGetAllServices();
 
   return (
     <Box bgcolor={"#FFF8F5"} py={"140px"}>
