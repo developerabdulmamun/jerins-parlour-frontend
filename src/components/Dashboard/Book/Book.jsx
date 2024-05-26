@@ -134,9 +134,9 @@ const Book = () => {
                 label="Credit Card"
               />
               <FormControlLabel
-                value="bkash"
+                value="paypal"
                 control={<Radio />}
-                label="Bkash"
+                label="PayPal"
               />
             </RadioGroup>
           </FormControl>
@@ -153,9 +153,9 @@ const Book = () => {
           </Grid>
         )}
 
-        {paymentMethod === "bkash" && (
+        {paymentMethod === "paypal" && (
           <Grid item xs={12}>
-            <Typography variant="body1">Bkash payment option</Typography>
+            <Typography variant="body1">Paypal payment option</Typography>
           </Grid>
         )}
       </Grid>

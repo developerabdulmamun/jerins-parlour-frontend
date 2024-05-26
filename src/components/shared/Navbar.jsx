@@ -22,6 +22,7 @@ import { ListItemIcon } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import MailIcon from "@mui/icons-material/Mail";
+import { usePathname, useRouter } from "next/navigation";
 
 const pages = [
   {
@@ -46,9 +47,10 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   const isAdmin = false;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [activeLink, setActiveLink] = React.useState("/");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const pathname = usePathname()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -59,7 +61,7 @@ const Navbar = () => {
   };
 
   const handleNavClick = (route) => {
-    setActiveLink(route);
+    router.push(route);
     handleCloseNavMenu();
   };
 
@@ -127,10 +129,14 @@ const Navbar = () => {
               {pages.map((page) => (
                 <MenuItem
                   key={page.pathName}
-                  href={page.route}
-                  onClick={handleCloseNavMenu}
+                  onClick={() => handleNavClick(page.route)}
                 >
-                  <Link href={page.route}>{page.pathName}</Link>
+                  <Link href={page.route} passHref>
+                    {" "}
+                    <Typography textAlign={"center"}>
+                      {page.pathName}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -151,20 +157,21 @@ const Navbar = () => {
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page.pathName}
-                onClick={() => handleNavClick(page.route)}
-                sx={{
-                  my: 2,
-                  mr: 2,
-                  color: "#474747",
-                  fontWeight: page.route === activeLink ? "600" : "400",
-                  display: "block",
-                  textTransform: "capitalize",
-                }}
-              >
-                <Link href={page.route}>{page.pathName}</Link>
-              </Button>
+              <Link key={page.pathName} href={page.route} passHref>
+                <Button
+                  onClick={() => handleNavClick(page.route)}
+                  sx={{
+                    my: 2,
+                    mr: 2,
+                    color: "#474747",
+                    fontWeight: pathname === page.route ? "600" : "400",
+                    display: "block",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {page.pathName}
+                </Button>
+              </Link>
             ))}
           </Box>
 
