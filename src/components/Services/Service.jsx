@@ -1,4 +1,6 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+"use client";
+
+import { Box, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import CustomButton from "../shared/CustomButton";
@@ -6,6 +8,7 @@ import Link from "next/link";
 
 const Service = ({ service }) => {
   const { icon, heading, price, description } = service;
+
   return (
     <Grid
       item

@@ -9,6 +9,7 @@ import "../globals.css";
 import Provider from "../_provider";
 import AuthProvider from "@/providers/AuthProvider";
 import Sidebar from "@/components/shared/Sidebar";
+import PrivateRoute from "@/utils/PrivateRoute";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,25 +19,27 @@ const poppins = Poppins({
 export default function DashboardLayout({ children }) {
   return (
     <html lang="en">
-      <Provider>
-        <AuthProvider>
-          <body className={poppins.className}>
-            <Box sx={{ display: "flex" }}>
-              <CssBaseline />
-              <Sidebar />
+      <body className={poppins.className}>
+        <Provider>
+          <AuthProvider>
+            <PrivateRoute>
+              <Box sx={{ display: "flex" }}>
+                <CssBaseline />
+                <Sidebar />
 
-              <Box
-                component="main"
-                sx={{ flexGrow: 1, px: 5, py: 8, minHeight: "100vh" }}
-                bgcolor={"#F4F7FC"}
-              >
-                <Toolbar />
-                {children}
+                <Box
+                  component="main"
+                  sx={{ flexGrow: 1, px: 5, py: 8, minHeight: "100vh" }}
+                  bgcolor={"#F4F7FC"}
+                >
+                  <Toolbar />
+                  {children}
+                </Box>
               </Box>
-            </Box>
-          </body>
-        </AuthProvider>
-      </Provider>
+            </PrivateRoute>
+          </AuthProvider>
+        </Provider>
+      </body>
     </html>
   );
 }
