@@ -18,12 +18,13 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
   const { createUser } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [error, setError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -44,6 +45,40 @@ const SignUp = () => {
 
     console.log(firstName, lastName, email, password, confirmPassword);
 
+    // Password Validation
+    if (password.length < 6) {
+      setError("Password must be at least 6 character");
+      return;
+    }
+
+    if (!/(?=.*[A-Z])/.test(password)) {
+      setError("Password must contain at least one lowercase");
+      return;
+    }
+
+    if (!/(?=.*[a-z])/.test(password)) {
+      setError("Password must contain at least one lowercase");
+      return;
+    }
+
+    if (!/(?=.[!@#$&*])/.test(password)) {
+      setError("Password must contain at least one special character");
+      return;
+    }
+
+    if (!/(?=.*[0-9])/.test(password)) {
+      setError("Password must contain at least one number");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Password and Confirm Password does not match");
+      return;
+    } else {
+      setError("");
+    }
+
+    // Firebase Authentication
     createUser(email, password)
       .then((result) => {
         result.user;
@@ -149,6 +184,11 @@ const SignUp = () => {
                   </FormControl>
                 </Grid>
               </Grid>
+
+              <Typography variant="body2" color={"error"}>
+                {error}
+              </Typography>
+
               <CustomButton type="submit" sx={{ width: "100%", mt: 4, mb: 2 }}>
                 Create an account
               </CustomButton>
