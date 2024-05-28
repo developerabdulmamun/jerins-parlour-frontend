@@ -4,15 +4,26 @@ import googleLogo from "@/assets/icons/Google.png";
 import Image from "next/image";
 import useAuth from "@/utils/useAuth";
 import toast, { Toaster } from "react-hot-toast";
+import useAxiosSecure from "@/utils/useAxiosSecure";
 
 const GoogleLogin = () => {
   const { googleSignIn } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const handleGoogleSignIn = () => {
     googleSignIn()
       .then((result) => {
-        console.log(result.user);
+        const loggedUser = result.user;
         toast.success("Successfully sign in with Google");
+
+        const userInfo = {
+          email: loggedUser?.email,
+          name: loggedUser?.displayName,
+        };
+
+        axiosSecure.post("/users", userInfo).then((res) => {
+          res.data;
+        });
       })
       .catch((error) => {
         toast.error(error.message);
