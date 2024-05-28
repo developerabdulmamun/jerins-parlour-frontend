@@ -66,7 +66,7 @@ const Service = ({ service }) => {
         <Typography color={"rgba(0, 0, 0, 0.7)"}>{description}</Typography>
       </Box>
 
-      <Link href={"/book"}>
+      <Link href={`/book?service=${encodeURIComponent(heading)}`}>
         <CustomButton sx={{ mt: 2 }}>Book Now</CustomButton>
       </Link>
     </Grid>

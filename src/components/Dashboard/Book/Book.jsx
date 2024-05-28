@@ -19,15 +19,24 @@ import React, { useEffect, useState } from "react";
 import StripeSetup from "./StripeSetup";
 import CardInputForm from "./CardInputForm";
 import useAxiosPublic from "@/utils/useAxiosPublic";
+import { useSearchParams } from "next/navigation";
 
 const Book = () => {
   const { user } = useAuth();
   const { services } = useGetAllServices();
   const axiosPublic = useAxiosPublic();
+  const searchParams = useSearchParams();
 
   const [selectedService, setSelectedService] = useState("");
   const [selectedServicePrice, setSelectedServicePrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("creditCard");
+
+  useEffect(() => {
+    const serviceQueryParams = searchParams.get("service");
+    if (serviceQueryParams) {
+      setSelectedService(serviceQueryParams);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const service = services?.find(
