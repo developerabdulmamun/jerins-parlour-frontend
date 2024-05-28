@@ -3,10 +3,11 @@
 import React from "react";
 import useAuth from "./useAuth";
 import { Box, CircularProgress } from "@mui/material";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -22,7 +23,13 @@ const PrivateRoute = ({ children }) => {
     return children;
   }
 
-  return redirect("/login");
+  if (typeof window !== "undefined") {
+    const currentPath = window.location.pathname + window.location.search;
+    router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+  }
+
+  return null;
+  // return redirect("/login");
 };
 
 export default PrivateRoute;

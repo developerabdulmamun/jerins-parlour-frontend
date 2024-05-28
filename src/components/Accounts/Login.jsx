@@ -18,11 +18,16 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const { login } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -39,12 +44,16 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log(email, password);
-
     login(email, password)
       .then((result) => {
         result.user;
         toast.success("Login Successful");
+
+        if (redirect) {
+          router.push(decodeURIComponent(redirect));
+        } else {
+          router.push("/");
+        }
       })
       .catch((error) => {
         toast.error(error.message);

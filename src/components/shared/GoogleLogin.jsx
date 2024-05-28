@@ -5,10 +5,14 @@ import Image from "next/image";
 import useAuth from "@/utils/useAuth";
 import toast, { Toaster } from "react-hot-toast";
 import useAxiosSecure from "@/utils/useAxiosSecure";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const GoogleLogin = () => {
   const { googleSignIn } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const handleGoogleSignIn = () => {
     googleSignIn()
@@ -24,6 +28,12 @@ const GoogleLogin = () => {
         axiosSecure.post("/users", userInfo).then((res) => {
           res.data;
         });
+
+        if (redirect) {
+          router.push(decodeURIComponent(redirect));
+        } else {
+          router.push("/");
+        }
       })
       .catch((error) => {
         toast.error(error.message);
