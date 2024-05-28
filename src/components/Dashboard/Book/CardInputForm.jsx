@@ -1,5 +1,6 @@
 import CustomButton from "@/components/shared/CustomButton";
 import useAuth from "@/utils/useAuth";
+import useAxiosPublic from "@/utils/useAxiosPublic";
 import { Box, Typography } from "@mui/material";
 import {
   CardCvcElement,
@@ -28,10 +29,15 @@ const cardElementOptions = {
   },
 };
 
-const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
+const CardInputForm = ({
+  selectedService,
+  selectedServicePrice,
+  handlePayment,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
 
   const [error, setError] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -80,6 +86,19 @@ const CardInputForm = ({ selectedServicePrice, handlePayment }) => {
         console.log("PaymentIntent: ", paymentIntent);
         if (paymentIntent.status === "succeeded") {
           setTransactionId(paymentIntent.id);
+
+          // Save booking information to the backend
+          const bookingInfo = {
+            name: user?.displayName || "anonymous",
+            email: user?.email || "anonymous",
+            service: selectedService,
+            price: selectedServicePrice,
+            paymentMethod: "Credit Card",
+            status: "Pending",
+            transactionId: paymentIntent.id,
+          };
+
+          await axiosPublic.post("/bookings", bookingInfo);
         }
       }
     }

@@ -154,6 +154,7 @@ const Book = () => {
           <Grid item xs={12}>
             <StripeSetup>
               <CardInputForm
+                selectedService={selectedService}
                 selectedServicePrice={selectedServicePrice}
                 handlePayment={handlePayment}
               />
@@ -163,7 +164,9 @@ const Book = () => {
 
         {paymentMethod === "paypal" && (
           <Grid item xs={12}>
-            <Typography variant="body1">Paypal payment option</Typography>
+            <Typography variant="body1">
+              Paypal payment option coming soon
+            </Typography>
           </Grid>
         )}
       </Grid>
