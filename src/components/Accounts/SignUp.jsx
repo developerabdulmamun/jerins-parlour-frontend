@@ -3,6 +3,7 @@
 import CustomButton from "@/components/shared/CustomButton";
 import GoogleLogin from "@/components/shared/GoogleLogin";
 import useAuth from "@/utils/useAuth";
+import useAxiosSecure from "@/utils/useAxiosSecure";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -18,11 +19,15 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
-  const { createUser } = useAuth();
+  const router = useRouter();
+  const axiosSecure = useAxiosSecure();
+  const { createUser, updateUserProfile } = useAuth();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = useState("");
 
@@ -39,11 +44,12 @@ const SignUp = () => {
 
     const firstName = form.first.value;
     const lastName = form.last.value;
+    const name = firstName + " " + lastName;
     const email = form.email.value;
     const password = form.password.value;
     const confirmPassword = form.confirm.value;
 
-    console.log(firstName, lastName, email, password, confirmPassword);
+    console.log(name, email, password, confirmPassword);
 
     // Password Validation
     if (password.length < 6) {
@@ -81,8 +87,20 @@ const SignUp = () => {
     // Firebase Authentication
     createUser(email, password)
       .then((result) => {
-        result.user;
+        const createdUser = result.user;
         toast.success("Account create successful");
+        form.reset();
+        router.push("/login");
+        updateUserProfile(name).then(() => {
+          const userInfo = {
+            email: createdUser.email,
+            name: name,
+          };
+
+          axiosSecure.post("/users", userInfo).then((res) => {
+            res.data;
+          });
+        });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -117,6 +135,7 @@ const SignUp = () => {
                     type="text"
                     name="first"
                     fullWidth
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -126,6 +145,7 @@ const SignUp = () => {
                     type="text"
                     name="last"
                     fullWidth
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -135,6 +155,7 @@ const SignUp = () => {
                     type="email"
                     name="email"
                     fullWidth
+                    required
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -146,6 +167,7 @@ const SignUp = () => {
                       id="standard-adornment-password"
                       name="password"
                       type={showPassword ? "text" : "password"}
+                      required
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -169,6 +191,7 @@ const SignUp = () => {
                       id="standard-adornment-password"
                       name="confirm"
                       type={showPassword ? "text" : "password"}
+                      required
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
