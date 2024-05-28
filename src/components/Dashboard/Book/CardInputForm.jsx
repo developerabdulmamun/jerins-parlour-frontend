@@ -1,6 +1,7 @@
 import CustomButton from "@/components/shared/CustomButton";
 import useAuth from "@/utils/useAuth";
 import useAxiosPublic from "@/utils/useAxiosPublic";
+import useGetAllServices from "@/utils/useGetAllServices";
 import { Box, Typography } from "@mui/material";
 import {
   CardCvcElement,
@@ -10,6 +11,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const cardElementOptions = {
   style: {
@@ -38,6 +40,11 @@ const CardInputForm = ({
   const elements = useElements();
   const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
+  const { services } = useGetAllServices();
+
+  const serviceDetails = services?.find(
+    (service) => service.heading === selectedService
+  );
 
   const [error, setError] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -86,12 +93,21 @@ const CardInputForm = ({
         console.log("PaymentIntent: ", paymentIntent);
         if (paymentIntent.status === "succeeded") {
           setTransactionId(paymentIntent.id);
+          
+          Swal.fire({
+            icon: "success",
+            title: "Thank you for choosing us, your service is pending now",
+            showConfirmButton: false,
+            timer: 1500,
+          });
 
           // Save booking information to the backend
           const bookingInfo = {
             name: user?.displayName || "anonymous",
             email: user?.email || "anonymous",
             service: selectedService,
+            description: serviceDetails?.description,
+            image: serviceDetails?.icon,
             price: selectedServicePrice,
             paymentMethod: "Credit Card",
             status: "Pending",
