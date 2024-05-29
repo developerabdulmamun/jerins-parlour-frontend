@@ -7,7 +7,7 @@ const useGetAllServices = () => {
   const axiosPublic = useAxiosPublic();
 
   const { data: services, refetch } = useQuery({
-    queryKey: "services",
+    queryKey: ["services"],
     queryFn: async () => {
       const res = await axiosPublic.get("/services");
       return res.data;
