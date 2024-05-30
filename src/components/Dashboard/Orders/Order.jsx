@@ -4,19 +4,23 @@ import useAxiosSecure from "@/utils/useAxiosSecure";
 import {
   Box,
   ButtonGroup,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 
 const Orders = () => {
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
   const { data: bookings } = useQuery({
     queryKey: ["bookings"],
@@ -25,6 +29,11 @@ const Orders = () => {
       return res.data;
     },
   });
+
+  const handleStatusChange = async (id, status) => {
+    await axiosSecure.put(`/bookings/${id}`, { status });
+    queryClient.invalidateQueries(["bookings"]);
+  };
 
   return (
     <>
@@ -58,7 +67,55 @@ const Orders = () => {
                   </TableCell>
                   <TableCell>{booking.service}</TableCell>
                   <TableCell>{booking.paymentMethod}</TableCell>
-                  <TableCell>{booking.status}</TableCell>
+                  <TableCell sx={{ textAlign: "center" }}>
+                    <Select
+                      value={booking.status}
+                      onChange={(e) =>
+                        handleStatusChange(booking._id, e.target.value)
+                      }
+                      sx={{
+                        border: "none",
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: 0,
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: 0,
+                        },
+                        "&.MuiSelect-select": {
+                          padding: 0,
+                        },
+                      }}
+                      renderValue={(value) => (
+                        <Typography
+                          sx={{
+                            color:
+                              value === "Pending"
+                                ? "#FF4545"
+                                : value === "Ongoing"
+                                ? "#FFBD3E"
+                                : "#009444",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {value}
+                        </Typography>
+                      )}
+                    >
+                      <MenuItem value="Pending">
+                        <Typography sx={{ color: "#FF4545" }}>
+                          Pending
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem value="Ongoing">
+                        <Typography sx={{ color: "#FFBD3E" }}>
+                          Ongoing
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem value="Done">
+                        <Typography sx={{ color: "#009444" }}>Done</Typography>
+                      </MenuItem>
+                    </Select>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
