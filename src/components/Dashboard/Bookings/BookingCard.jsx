@@ -39,7 +39,7 @@ const BookingCard = ({ booking }) => {
           <Chip
             label={status}
             color={statusColors[status]}
-            variant="outlined"
+            variant="contained"
           />
         </Box>
         <Typography

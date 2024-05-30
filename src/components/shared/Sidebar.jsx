@@ -8,7 +8,7 @@ import Link from "next/link";
 import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import { Box, Toolbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -70,10 +70,18 @@ const adminSidebarMenu = [
 
 const Sidebar = () => {
   const { user } = useAuth();
-  const isAdmin = true;
+  const isAdmin = false;
   const [mobileOpen, setMobileOpen] = useState(false);
   const sidebarMenu = isAdmin ? adminSidebarMenu : userSidebarMenu;
   const [selectedMenu, setSelectedMenu] = useState(sidebarMenu[0]);
+
+  useEffect(() => {
+    const savedMenu = localStorage.getItem("selectedMenu");
+    if (savedMenu) {
+      const parseMenu = JSON.parse(savedMenu);
+      setSelectedMenu(parseMenu);
+    }
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -81,6 +89,7 @@ const Sidebar = () => {
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
+    localStorage.setItem("selectedMenu", JSON.stringify(menu));
   };
 
   return (
