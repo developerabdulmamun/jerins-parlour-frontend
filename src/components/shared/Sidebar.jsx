@@ -76,7 +76,7 @@ const Sidebar = () => {
   const [selectedMenu, setSelectedMenu] = useState(sidebarMenu[0]);
 
   useEffect(() => {
-    const savedMenu = localStorage.getItem("selectedMenu");
+    const savedMenu = sessionStorage.getItem("selectedMenu");
     if (savedMenu) {
       const parseMenu = JSON.parse(savedMenu);
       setSelectedMenu(parseMenu);
@@ -89,7 +89,7 @@ const Sidebar = () => {
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
-    localStorage.setItem("selectedMenu", JSON.stringify(menu));
+    sessionStorage.setItem("selectedMenu", JSON.stringify(menu));
   };
 
   return (
