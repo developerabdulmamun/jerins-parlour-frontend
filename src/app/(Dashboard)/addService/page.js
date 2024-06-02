@@ -1,4 +1,5 @@
 import AddService from "@/components/Dashboard/AddService/AddService";
+import AdminRoute from "@/utils/AdminRoute";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export const metadata = {
 const AddServicePage = () => {
   return (
     <div>
-      <AddService />
+      <AdminRoute>
+        <AddService />
+      </AdminRoute>
     </div>
   );
 };

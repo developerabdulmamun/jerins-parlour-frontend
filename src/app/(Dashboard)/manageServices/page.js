@@ -1,4 +1,5 @@
 import ManageService from "@/components/Dashboard/ManageService/ManageService";
+import AdminRoute from "@/utils/AdminRoute";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export const metadata = {
 const ManageServicePage = () => {
   return (
     <div>
-      <ManageService />
+      <AdminRoute>
+        <ManageService />
+      </AdminRoute>
     </div>
   );
 };

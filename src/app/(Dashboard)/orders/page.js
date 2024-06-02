@@ -1,4 +1,5 @@
 import Orders from "@/components/Dashboard/Orders/Order";
+import AdminRoute from "@/utils/AdminRoute";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export const metadata = {
 const OrdersPage = () => {
   return (
     <div>
-      <Orders />
+      <AdminRoute>
+        <Orders />
+      </AdminRoute>
     </div>
   );
 };

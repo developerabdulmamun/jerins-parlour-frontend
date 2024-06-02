@@ -23,6 +23,7 @@ import { Logout } from "@mui/icons-material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import MailIcon from "@mui/icons-material/Mail";
 import { usePathname, useRouter } from "next/navigation";
+import useAdmin from "@/utils/useAdmin";
 
 const pages = [
   {
@@ -45,12 +46,12 @@ const pages = [
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

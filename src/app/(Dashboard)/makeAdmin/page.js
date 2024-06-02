@@ -1,4 +1,5 @@
 import MakeAdmin from "@/components/Dashboard/MakeAdmin/MakeAdmin";
+import AdminRoute from "@/utils/AdminRoute";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export const metadata = {
 const MakeAdminPage = () => {
   return (
     <div>
-      <MakeAdmin />
+      <AdminRoute>
+        <MakeAdmin />
+      </AdminRoute>
     </div>
   );
 };
