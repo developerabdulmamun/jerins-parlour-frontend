@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://jerins-parlour-backend-lyart.vercel.app",
 });
 
 const useAxiosSecure = () => {
