@@ -1,12 +1,25 @@
 "use client";
 
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bannerImage from "@/assets/images/banner-image.png";
 import CustomButton from "@/components/shared/CustomButton";
+import BannerSkeleton from "./BannerSkeleton";
 
 const Banner = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return <BannerSkeleton />;
+  }
+
   return (
     <Box sx={{ backgroundColor: "#FFF8F5", py: 5 }}>
       <Container maxWidth="lg">
