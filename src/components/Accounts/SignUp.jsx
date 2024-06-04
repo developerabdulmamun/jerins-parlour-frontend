@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
@@ -48,8 +48,6 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const confirmPassword = form.confirm.value;
-
-    console.log(name, email, password, confirmPassword);
 
     // Password Validation
     if (password.length < 6) {
@@ -236,4 +234,10 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignUp />
+    </Suspense>
+  );
+}

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import googleLogo from "@/assets/icons/Google.png";
+import googleLogo from "@/assets/icons/google.png";
 import Image from "next/image";
 import useAuth from "@/utils/useAuth";
 import toast, { Toaster } from "react-hot-toast";

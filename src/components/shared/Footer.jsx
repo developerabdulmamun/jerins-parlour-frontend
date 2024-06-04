@@ -2,13 +2,10 @@ import { Facebook, Instagram, LinkedIn, YouTube } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Box,
-  Button,
-  ButtonGroup,
   Container,
   Grid,
   Typography,
 } from "@mui/material";
-import { Youtube } from "lucide-react";
 import React from "react";
 
 const Footer = () => {

@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -136,4 +136,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Login />
+    </Suspense>
+  );
+}
